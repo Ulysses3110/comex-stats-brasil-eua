@@ -23,8 +23,8 @@ ano_disponiveis = sorted(df['Ano'].unique())
 ano_selecionados = st.sidebar.multiselect("Ano", ano_disponiveis, default=ano_disponiveis)
 
 # Filtro por CGCE
-cgce_disponiveis = sorted(df['Código CGCE Nível 1'].unique())
-cgce_selecionados = st.sidebar.multiselect("Código CGCE Nível 1", cgce_disponiveis, default=cgce_disponiveis)
+cgce_disponiveis = sorted(df['Descrição CGCE Nível 1'].unique())
+cgce_selecionados = st.sidebar.multiselect("Descrição CGCE Nível 1", cgce_disponiveis, default=cgce_disponiveis)
 
 # Filtro por ISIC
 isic_disponiveis = sorted(df['Descrição ISIC Seção'].unique())
@@ -39,7 +39,7 @@ cuci_selecionados = st.sidebar.multiselect("Descrição CUCI Seção", cuci_disp
 df_filtrado = df[
     (df['Fluxo'].isin(fluxo_selecionados)) &
     (df['Ano'].isin(ano_selecionados)) &
-    (df['Código CGCE Nível 1'].isin(cgce_selecionados)) &
+    (df['Descrição CGCE Nível 1'].isin(cgce_selecionados)) &
     (df['Descrição ISIC Seção'].isin(isic_selecionados)) &
     (df['Descrição CUCI Seção'].isin(cuci_selecionados))
 ]
@@ -89,14 +89,14 @@ with col_graf1:
 
 with col_graf2:
     if not df_filtrado.empty:
-        top_cgce = df_filtrado.groupby('Código CGCE Nível 1')['Valor US$ FOB'].sum().nlargest(5).sort_values(ascending=True).reset_index()
+        top_cgce = df_filtrado.groupby('Descrição CGCE Nível 1')['Valor US$ FOB'].sum().nlargest(5).sort_values(ascending=True).reset_index()
         grafico_cgce = px.bar(
             top_cgce,
             x='Valor US$ FOB',
-            y='Código CGCE Nível 1',
+            y='Descrição CGCE Nível 1',
             orientation='h',
-            title="Top 5 CGCE por valor total",
-            labels={'Valor US$ FOB': 'Valor anual (USD)', 'Código CGCE Nível 1': ''}
+            title="Top 5 CGCE",
+            labels={'Valor US$ FOB': 'Valor anual (USD)', 'Descrição CGCE Nível 1': ''}
         )
         grafico_cgce.update_layout(title_x=0.1, yaxis={'categoryorder':'total ascending'})
         st.plotly_chart(grafico_cgce, use_container_width=True)
