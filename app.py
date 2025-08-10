@@ -73,13 +73,13 @@ col_graf1, col_graf2 = st.columns(2)
 
 with col_graf1:
     if not df_filtrado.empty:
-        top_ncm = df_filtrado.groupby('Descrição NCM')['Valor US$ FOB'].sum().nlargest(10).sort_values(ascending=True).reset_index()
+        top_ncm = df_filtrado.groupby('Descrição NCM')['Valor US$ FOB'].sum().nlargest(20).sort_values(ascending=True).reset_index()
         grafico_ncm = px.bar(
             top_ncm,
             x='Valor US$ FOB',
             y='Descrição NCM',
             orientation='h',
-            title="Top 10 NCM por valor total",
+            title="Top 20 NCM por valor total",
             labels={'Valor US$ FOB': 'Valor anual (USD)', 'Descrição NCM': ''}
         )
         grafico_ncm.update_layout(title_x=0.1, yaxis={'categoryorder':'total ascending'})
