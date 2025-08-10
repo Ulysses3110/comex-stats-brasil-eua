@@ -123,19 +123,20 @@ with col_graf3:
 
 with col_graf4:
     if not df_filtrado.empty:
-        top_isic = df_filtrado.groupby('Descrição ISIC Seção')['Valor US$ FOB'].sum().nlargest(4).sort_values(ascending=True).reset_index()
-        grafico_isic = px.bar(
-            top_isic,
-            x='Valor US$ FOB',
-            y='Descrição ISIC Seção',
-            orientation='h',
-            title="Top 4 ISIC por valor total",
-            labels={'Valor US$ FOB': 'Valor anual (USD)', 'Descrição ISIC Seção': ''}
+        isic_contagem = df_filtrado['Descrição ISIC Seção'].value_counts().reset_index()
+        isic_contagem.columns = ['Descrição ISIC Seção', 'Valor US$ FOB']
+        grafico_remoto = px.pie(
+            isic_contagem,
+            names='Descrição ISIC Seção',
+            values='Valor US$ FOB',
+            title='Share ISIC',
+            hole=0.5
         )
-        grafico_isic.update_layout(title_x=0.1, yaxis={'categoryorder':'total ascending'})
-        st.plotly_chart(grafico_isic, use_container_width=True)
+        grafico_remoto.update_traces(textinfo='percent+label')
+        grafico_remoto.update_layout(title_x=0.1)
+        st.plotly_chart(grafico_remoto, use_container_width=True)
     else:
-        st.warning("Nenhum dado para exibir no gráfico de isic.")
+        st.warning("Nenhum dado para exibir no gráfico dos ISIC.")
 
 # --- Tabela de Dados Detalhados ---
 st.subheader("Dados Detalhados")
