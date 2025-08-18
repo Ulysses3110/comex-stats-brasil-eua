@@ -12,7 +12,7 @@ st.set_page_config(
 )
 # --- Carregamento dos dados ---
 df = pd.read_excel("df_comex.xlsx")
-
+#df = pd.read_csv("df_comex.csv", sep = ';')
 # --- Barra Lateral (Filtros) ---
 st.sidebar.header("🔍 Filtros")
 
