@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import openpyxl as xls
+
 
 # --- Configuração da Página ---
 # Define o título da página, o ícone e o layout para ocupar a largura inteira.
